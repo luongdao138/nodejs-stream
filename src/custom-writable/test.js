@@ -18,7 +18,7 @@ function writeToFile(from, stream) {
   }
 }
 
-(async () => {
+const testWritable = async () => {
   console.time("writeMany");
 
   const stream = new FileWriteStream({
@@ -41,4 +41,6 @@ function writeToFile(from, stream) {
   stream.on("error", (error) => {
     console.error("error when write, ", error);
   });
-})();
+};
+
+module.exports = testWritable;

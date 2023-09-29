@@ -1,5 +1,4 @@
 const fs = require("node:fs");
-const path = require("node:path");
 const { Writable } = require("node:stream");
 
 class FileWriteStream extends Writable {
@@ -88,22 +87,11 @@ class FileWriteStream extends Writable {
   }
 }
 
-const stream = new FileWriteStream({
-  highWaterMark: 1800,
-  filePath: path.resolve(__dirname, "../resources/custom", "text-small.txt"),
-});
-
-stream.on("drain", () => {
-  console.log("drain event fired!");
-});
-
-stream.write(Buffer.from("This is a string.\n"));
-stream.write(Buffer.from("This is another string.\n"));
-
-stream.end(Buffer.from("This is last write."));
-
-stream.on("finish", () => {
-  console.log("Stream was finished");
-});
-
 module.exports = FileWriteStream;
+
+// something your need to keep in mind when implement a custom writable stream
+// first your have to extend from Writable class
+// implement some important methods: _construct, _write, _final, _destroy
+// never throw error in these methods, pass the error object to the callback instead
+// never emit events, let nodejs handle it for you
+//
